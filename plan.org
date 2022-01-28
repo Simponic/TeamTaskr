@@ -28,7 +28,7 @@ Users and projects will be many to many
 Users and tasks will be one to many
 
 * Question Three
-We will use the context id to map a user to a project.
+We will use the context id to map a user to a project. (If the user has a role with the same context id as the project, they own it).
 
 * Question Four
 Projects Controller
