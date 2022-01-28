@@ -34,18 +34,18 @@ We will use the context id to map a user to a project. (If the user has a role w
 Projects Controller
 Tasks Controller
 
-| Method | Route           | Controller         | Purpose              |
-|--------+-----------------+--------------------+----------------------|
-| POST   | =/projects=     | ProjectsController | Create new project   |
-| GET    | =/projects=     | ProjectsController | Get all the projects |
-| GET    | =/projects/:id= | ProjectsController | Get project at id    |
-| DELETE | =/projects/:id= | ProjectsController | Delete a project     |
-| PUT    | =/projects/:id= | ProjectsController | Update a project     |
-| POST   | =/tasks=        | TasksController    | Create new task      |
-| GET    | =/tasks=        | TasksController    | Get all the tasks    |
-| GET    | =/tasks/:id=    | TasksController    | Get task at id       |
-| DELETE | =/tasks/:id=    | TasksController    | Delete a task        |
-| PUT    | =/tasks/:id=    | TasksController    | Update a task        |
+| Method | Route           | Controller         | Purpose                            |
+|--------+-----------------+--------------------+------------------------------------|
+| POST   | =/projects=     | ProjectsController | Create new project                 |
+| GET    | =/projects=     | ProjectsController | Get projects the user is a part of |
+| GET    | =/projects/:id= | ProjectsController | Get project at id                  |
+| DELETE | =/projects/:id= | ProjectsController | Delete a project                   |
+| PUT    | =/projects/:id= | ProjectsController | Update a project                   |
+| POST   | =/tasks=        | TasksController    | Create new task                    |
+| GET    | =/tasks=        | TasksController    | Get tasks a user is assigned to    |
+| GET    | =/tasks/:id=    | TasksController    | Get task at id                     |
+| DELETE | =/tasks/:id=    | TasksController    | Delete a task                      |
+| PUT    | =/tasks/:id=    | TasksController    | Update a task                      |
 
 * Question Five 
 Users should be able to create projects.
