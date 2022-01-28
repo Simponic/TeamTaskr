@@ -4,15 +4,19 @@
 * Question One
 ** Projects table
 | column     | type   |
+|------------+--------|
 | title      | string |
 | context_id | string |
 
 ** Users_Projects table
 | column     | type |
+|------------+------|
 | user_id    | int  |
 | project_id | int  |
 
 ** Tasks table
+| column      | type    |
+|-------------+---------|
 | project_id  | int     |
 | user_id     | int     |
 | in_progress | tinyint |
@@ -31,6 +35,7 @@ Projects Controller
 Tasks Controller
 
 | Method | Route           | Controller         | Purpose              |
+|--------+-----------------+--------------------+----------------------|
 | POST   | =/projects=     | ProjectsController | Create new project   |
 | GET    | =/projects=     | ProjectsController | Get all the projects |
 | GET    | =/projects/:id= | ProjectsController | Get project at id    |
