@@ -1,0 +1,58 @@
+#+TITLE: Project One - Planning
+#+AUTHOR: Modern Dark Web Development
+
+* Question One
+** Projects table
+| column     | type   |
+| title      | string |
+| context_id | string |
+
+** Users_Projects table
+| column     | type |
+| user_id    | int  |
+| project_id | int  |
+
+** Tasks table
+| project_id  | int     |
+| user_id     | int     |
+| in_progress | tinyint |
+| title       | string  |
+
+* Question Two  
+Users and projects will be many to many
+
+Users and tasks will be one to many
+
+* Question Three
+We will use the context id to map a user to a project.
+
+* Question Four
+Projects Controller
+Tasks Controller
+
+| Method | Route            | Controller         | Purpose              |
+| POST   | /projects        | ProjectsController | Create new project   |
+| GET    | /projects        | ProjectsController | Get all the projects |
+| GET    | /projects/:id    | ProjectsController | Get project at id    |
+| DELETE | /projects/:id    | ProjectsController | Delete a project     |
+| PUT    | /projects/:id    | ProjectsController | Update a project     |
+| POST   | /tasks           | TasksController    | Create new task      |
+| GET    | /tasks           | TasksController    | Get all the tasks    |
+| GET    | /tasks/:id       | TasksController    | Get task at id       |
+| DELETE | /tasks/:id       | TasksController    | Delete a task        |
+| PUT    | /tasks/:id       | TasksController    | Update a task        |
+
+* Question Five 
+Users should be able to create projects.
+
+Project creators can invite new users to join said project.
+
+Project creators can assign user to a task.
+
+Users in project can create or claim a task.
+
+Users assigned to task can update its status.
+
+Project creators can update or delete any task in project.
+
+When task is completed user assigned can delete it.
