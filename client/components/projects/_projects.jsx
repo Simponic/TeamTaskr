@@ -3,30 +3,45 @@ import { ApiContext } from '../../utils/api_context';
 import { Link } from 'react-router-dom';
 import { Paper } from '../common/paper';
 import { Button } from '../common/button';
+import { ProjectNew } from './project_new';
 
 export const Projects = () => {
   const api = useContext(ApiContext);
 
   const [projects, setProjects] = useState([]);
 
-  useEffect(async () => {
+  const fetchProjects = async () => {
     const res = await api.get('/projects');
     setProjects(res.projects);
-  }, []);
+  };
+
+  const deleteProject = async (id) => {
+    const res = await api.del(`/projects/${id}`);
+    if (res.success) {
+      fetchProjects();
+    }
+  };
+
+  useEffect(fetchProjects, []);
 
   return (
     <div className="flex flex-row justify-center m-4">
       <div className="w-96">
-        <Paper>
-          {projects.map((project) => (
-            <div key={project.id}>
+        <ProjectNew newProject={fetchProjects} />
+        {projects.map((project) => (
+          <Paper key={project.id}>
+            <div>
               <h2>{project.title}</h2>
-              <Button>
-                <Link to={`/projects/${project.id}`}> View </Link>
-              </Button>
+              <div className="flex justify-end">
+                <Button>
+                  <Link to={`/projects/${project.id}`}> View </Link>
+                </Button>
+                <div className="pl-2" />
+                <Button onClick={() => deleteProject(project.id)}>Delete</Button>
+              </div>
             </div>
-          ))}
-        </Paper>
+          </Paper>
+        ))}
       </div>
     </div>
   );

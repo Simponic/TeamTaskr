@@ -27,7 +27,12 @@ export class ProjectsService {
 
   async getProjectsUserIn(userId: number) {
     return await this.projectsRepository.find({
-      contextId: In(await this.userContexts(userId)),
+      where: {
+        contextId: In(await this.userContexts(userId)),
+      },
+      order: {
+        id: 'DESC',
+      },
     });
   }
 
@@ -43,8 +48,34 @@ export class ProjectsService {
   async create(projectPayload: any, userId: number) {
     const project = new Project();
     project.title = projectPayload.title;
-    project.contextId = uniqueId();
-    await this.usersService.addUserToRoleInContext(userId, project.contextId, RoleKey.TEAM_LEADER);
+    project.contextId = uniqueId('project_');
+    await this.usersService.addUserToRoleInContext(userId, project.contextId, RoleKey.TEAM_LEADER, RoleKey.TEAM_MEMBER);
     return this.projectsRepository.save(project);
+  }
+
+  async delete(id: number) {
+    const context_id = (
+      await this.projectsRepository.findOne({
+        id: id,
+      })
+    ).contextId;
+    await this.projectsRepository.delete(id);
+    await this.userRolesRepository.delete({ contextId: context_id });
+    return { success: true };
+  }
+
+  async addUserToProject(projectId: number, userEmail: string) {
+    const user = await this.usersService.findBy({ email: userEmail });
+    if (!user) return { success: false, message: 'User not found' };
+
+    const project = await this.projectsRepository.findOne({
+      id: projectId,
+    });
+    if (!(await this.usersService.hasRoleInContext(user.id, project.contextId, RoleKey.TEAM_MEMBER))) {
+      await this.usersService.addUserToRoleInContext(user.id, project.contextId, RoleKey.TEAM_MEMBER);
+      return { success: true };
+    } else {
+      return { success: false, message: 'User is already in this project' };
+    }
   }
 }

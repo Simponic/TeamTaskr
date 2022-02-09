@@ -5,6 +5,7 @@ import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
 import { Projects } from '../projects/_projects';
+import { ProjectNew } from '../projects/project_new';
 
 export const Home = () => {
   const [, setAuthToken] = useContext(AuthContext);
