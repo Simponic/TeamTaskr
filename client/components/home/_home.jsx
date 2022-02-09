@@ -4,6 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
+import { Projects } from '../projects/_projects';
 
 export const Home = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -42,6 +43,12 @@ export const Home = () => {
           Admin
         </Button>
       )}
+      <div className="mt-4">
+        <div className="flex justify-center">
+          <h2>Projects</h2>
+        </div>
+        <Projects />
+      </div>
     </div>
   );
 };
