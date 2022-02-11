@@ -5,7 +5,7 @@ import { Project } from 'server/entities/project.entity';
 import { UserRole } from 'server/entities/user_role.entity';
 import { UsersService } from './users.service';
 import { RoleKey } from 'server/entities/role.entity';
-import { uniqueId } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProjectsService {
@@ -48,7 +48,7 @@ export class ProjectsService {
   async create(projectPayload: any, userId: number) {
     const project = new Project();
     project.title = projectPayload.title;
-    project.contextId = uniqueId('project_');
+    project.contextId = uuidv4();
     await this.usersService.addUserToRoleInContext(userId, project.contextId, RoleKey.TEAM_LEADER, RoleKey.TEAM_MEMBER);
     return this.projectsRepository.save(project);
   }

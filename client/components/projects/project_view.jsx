@@ -9,6 +9,7 @@ export const ProjectView = () => {
 
   const { id } = useParams();
   const [project, setProject] = useState({});
+  const [globalError, setGlobalError] = useState('');
   const [addUserEmailError, setAddUserEmailError] = useState('');
   const [addUserEmail, setAddUserEmail] = useState('');
 
@@ -21,18 +22,19 @@ export const ProjectView = () => {
   };
 
   useEffect(async () => {
-    try {
-      const res = await api.get(`/projects/${id}`);
-      // TODO: Get tasks,users associated with project
+    const res = await api.get(`/projects/${id}`);
+    // TODO: Get tasks,users associated with project
+    if (res.success) {
       setProject(res.project);
-    } catch (e) {
-      console.log(e);
+    } else if (res.message) {
+      setGlobalError(res.message);
     }
   }, []);
 
   return (
     <div className="p-4">
-      <h1>{project.title}</h1>
+      <div>{project.title}</div>
+      <div className="text-red-500">{globalError}</div>
       <div>
         <Input
           type="text"

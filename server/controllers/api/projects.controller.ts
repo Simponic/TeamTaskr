@@ -27,6 +27,7 @@ export class ProjectsContoller {
       const project = await this.projectsService.find(id);
       return { project };
     }
+    return { success: false, message: "You don't have permission to view this project" };
   }
 
   @Post('/projects')
@@ -47,6 +48,6 @@ export class ProjectsContoller {
     if (await this.authorized(jwtBody, id, RoleKey.TEAM_LEADER)) {
       return await this.projectsService.delete(id);
     }
-    throw new UnauthorizedException("You don't have permission to delete this project");
+    return { success: false, message: "You don't have permission to delete this project" };
   }
 }

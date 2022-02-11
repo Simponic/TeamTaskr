@@ -9,8 +9,10 @@ export const Projects = () => {
   const api = useContext(ApiContext);
 
   const [projects, setProjects] = useState([]);
+  const [error, setError] = useState('');
 
   const fetchProjects = async () => {
+    setError('');
     const res = await api.get('/projects');
     setProjects(res.projects);
   };
@@ -19,6 +21,8 @@ export const Projects = () => {
     const res = await api.del(`/projects/${id}`);
     if (res.success) {
       fetchProjects();
+    } else if (res.message) {
+      setError(res.message);
     }
   };
 
@@ -27,7 +31,8 @@ export const Projects = () => {
   return (
     <div className="flex flex-row justify-center m-4">
       <div className="w-96">
-        <ProjectNew newProject={fetchProjects} />
+        <ProjectNew newProject={() => fetchProjects} />
+        {error ? <div className="w-96 text-red-500 flex">{error}</div> : null}
         {projects.map((project) => (
           <Paper key={project.id}>
             <div>
