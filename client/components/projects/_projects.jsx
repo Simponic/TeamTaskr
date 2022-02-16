@@ -31,8 +31,8 @@ export const Projects = () => {
   return (
     <div className="flex flex-row justify-center m-4">
       <div className="w-96">
-        <ProjectNew newProject={() => fetchProjects} />
-        {error ? <div className="w-96 text-red-500 flex">{error}</div> : null}
+        <ProjectNew onNewProject={fetchProjects} />
+        <div className="w-96 text-red-500 flex">{error}</div>
         {projects.map((project) => (
           <Paper key={project.id}>
             <div>

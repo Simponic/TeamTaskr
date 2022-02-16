@@ -4,7 +4,7 @@ import { Input } from '../common/input';
 import { useState, useContext } from 'react';
 import { ApiContext } from '../../utils/api_context';
 
-export const ProjectNew = ({ newProject }) => {
+export const ProjectNew = ({ onNewProject }) => {
   const api = useContext(ApiContext);
   const [title, setTitle] = useState('');
   const [error, setError] = useState('');
@@ -15,7 +15,7 @@ export const ProjectNew = ({ newProject }) => {
       setError("Can't be blank");
     } else {
       await api.post('/projects', { title });
-      newProject();
+      onNewProject();
     }
   };
 

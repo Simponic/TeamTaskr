@@ -22,6 +22,10 @@ export class UsersService {
     return this.usersRespository.find({ relations });
   }
 
+  findAllBy(options: any) {
+    return this.usersRespository.find(options);
+  }
+
   findBy(options: Record<string, any>, relations: string[] = []) {
     return this.usersRespository.findOne(options, { relations });
   }
@@ -70,5 +74,9 @@ export class UsersService {
 
   async hasRootRole(userId: number, ...roleKeys: RoleKey[]) {
     return this.hasRoleInContext(userId, 'root', ...roleKeys);
+  }
+
+  async userContexts(userId: number) {
+    return Array.from(new Set((await this.userRolesRepository.find({ userId })).map((x) => x.contextId)));
   }
 }

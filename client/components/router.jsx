@@ -5,7 +5,6 @@ import { AuthContext } from '../utils/auth_context';
 import { SignIn } from './sign_in/_sign_in';
 import { SignUp } from './sign_up/_sign_up';
 import { Admin } from './admin/_admin';
-import { Projects } from './projects/_projects';
 import { ProjectView } from './projects/project_view';
 
 export const Router = () => {

@@ -21,14 +21,10 @@ export class ProjectsService {
     return this.projectsRepository.findOne(id, { relations });
   }
 
-  private async userContexts(userId: number) {
-    return Array.from(new Set((await this.userRolesRepository.find({ userId })).map((x) => x.contextId)));
-  }
-
   async getProjectsUserIn(userId: number) {
     return await this.projectsRepository.find({
       where: {
-        contextId: In(await this.userContexts(userId)),
+        contextId: In(await this.usersService.userContexts(userId)),
       },
       order: {
         id: 'DESC',
@@ -77,5 +73,19 @@ export class ProjectsService {
     } else {
       return { success: false, message: 'User is already in this project' };
     }
+  }
+
+  async usersInProject(projectId: number) {
+    const users = await this.userRolesRepository
+      .createQueryBuilder('user_role')
+      .select('"userId"')
+      .where('"contextId" = :contextId', { contextId: (await this.projectsRepository.findOne(projectId)).contextId })
+      .distinctOn(['"userId"'])
+      .getRawMany();
+    return await this.usersService.findAllBy({
+      where: {
+        id: In(users.map((user) => user.userId)),
+      },
+    });
   }
 }
