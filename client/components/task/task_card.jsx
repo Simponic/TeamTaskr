@@ -16,7 +16,9 @@ export const TaskCard = ({ task, users, onUpdate }) => {
 
   const setFieldsFromInitialTask = () => {
     setTitle(task.title);
-    setAssignedUser(task.user ? task.user.id : '');
+    // Current bug: when the user is not assigned, user can assign themselves, but it doesn't update
+    // until the user refreshes the page.
+    setAssignedUser(task.user ? task.user.id : users[0].id);
     setAssignedUserName(task.user ? `${task.user.firstName} ${task.user.lastName}` : '-');
     setStatus(task.status);
     setEstimate(task.estimate);

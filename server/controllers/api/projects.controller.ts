@@ -93,6 +93,7 @@ export class ProjectsContoller {
       return await this.tasksService.save({ ...task, ...taskPayload });
     } else if (!task.user && isTeamMember) {
       // User can assign themselves to a task if they are a team member and the task is not assigned to anyone
+      console.log(taskPayload, jwtBody);
       if (taskPayload.userId == jwtBody.userId) {
         task.user = await this.usersService.find(jwtBody.userId);
         return await this.tasksService.save(task);
