@@ -4,24 +4,26 @@ import { Input } from '../common/input';
 import { useState, useContext, useEffect } from 'react';
 import { ApiContext } from '../../utils/api_context';
 
-export const TaskCard = ({ task, users, onUpdate }) => {
+export const TaskCard = ({ projectId, task, users, onUpdate }) => {
   const api = useContext(ApiContext);
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(false);
-  const [title, setTitle] = useState('-');
+  const [title, setTitle] = useState('New Task');
   const [assignedUser, setAssignedUser] = useState(-1);
   const [assignedUserName, setAssignedUserName] = useState('-');
   const [status, setStatus] = useState('-');
   const [estimate, setEstimate] = useState('-');
 
   const setFieldsFromInitialTask = () => {
-    setTitle(task.title);
-    // Current bug: when the user is not assigned, user can assign themselves, but it doesn't update
-    // until the user refreshes the page.
-    setAssignedUser(task.user ? task.user.id : users[0].id);
-    setAssignedUserName(task.user ? `${task.user.firstName} ${task.user.lastName}` : '-');
-    setStatus(task.status);
-    setEstimate(task.estimate);
+    if (task) {
+      setTitle(task.title);
+      setAssignedUser(task.user ? task.user.id : users[0].id);
+      setAssignedUserName(task.user ? `${task.user.firstName} ${task.user.lastName}` : '-');
+      setStatus(task.status);
+      setEstimate(task.estimate);
+    } else {
+      setEditing(true);
+    }
   };
 
   useEffect(setFieldsFromInitialTask, []);
@@ -38,21 +40,32 @@ export const TaskCard = ({ task, users, onUpdate }) => {
   const updateTask = async () => {
     if (editing) {
       setError('');
-      const res = await api.put(`/projects/tasks/${task.id}`, {
+      let body = {
         userId: assignedUser,
         title: title,
         status: status,
         estimate: estimate,
-      });
+      };
+      let res;
+      if (task) {
+        res = await api.put(`/projects/tasks/${task.id}`, body);
+      } else if (projectId) {
+        body.projectId = projectId;
+        res = await api.post(`/projects/${projectId}/tasks`, body);
+      }
       if (res.success) {
         onUpdate();
       } else if (res.message) {
         setError(res.message);
-        setFieldsFromInitialTask(); // This is why we can't set the default fields from the task in the useState's
+        if (task) {
+          setFieldsFromInitialTask(); // This is why we can't set the default fields from the task in the useState's
+        }
       }
     }
 
-    setEditing(!editing);
+    if (task) {
+      setEditing(!editing);
+    }
   };
 
   return (
@@ -102,7 +115,7 @@ export const TaskCard = ({ task, users, onUpdate }) => {
           </div>
         )}
         <div className="flex justify-end">
-          <Button onClick={() => deleteTask(task.id)}>Delete</Button>
+          {!projectId ? <Button onClick={() => deleteTask(task.id)}>Delete</Button> : null}
           <div className="pl-2" />
           <Button onClick={updateTask}>{editing ? 'Submit' : 'Edit'}</Button>
         </div>

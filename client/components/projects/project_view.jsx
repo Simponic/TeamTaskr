@@ -51,6 +51,9 @@ export const ProjectView = () => {
         <p className="text-red-500">{addUserEmailError}</p>
         <Button onClick={addUserToProject}>Add User</Button>
       </div>
+      <div className="flex justify-center">
+        <TaskCard projectId={id} task={null} users={users} onUpdate={fetchProject} />
+      </div>
       <div className="grid grid-flow-col gap-3 h-100">
         <div className="col-span-1">
           <div>

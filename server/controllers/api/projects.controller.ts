@@ -49,10 +49,10 @@ export class ProjectsContoller {
 
   @Post('/projects/:id/users')
   public async addUser(@JwtBody() jwtBody: JwtBodyDto, @Body() userPayload: any, @Param('id') id: number) {
-    if (await this.authorized(jwtBody, id, RoleKey.TEAM_MEMBER)) {
+    if (await this.authorized(jwtBody, id, RoleKey.TEAM_LEADER)) {
       return await this.projectsService.addUserToProject(id, userPayload.email);
     }
-    return { success: false, message: "You don't have permission to delete this project" };
+    return { success: false, message: "You don't have permission to add new users" };
   }
 
   @Delete('/projects/:id')
@@ -65,7 +65,7 @@ export class ProjectsContoller {
 
   @Post('/projects/:id/tasks')
   public async addTask(@JwtBody() jwtBody: JwtBodyDto, @Param('id') id: number, @Body() taskPayload: any) {
-    // Todo: add task to a project
+    await this.tasksService.create(taskPayload, jwtBody.userId, id);
     return { success: true };
   }
 
@@ -75,7 +75,7 @@ export class ProjectsContoller {
     if (await this.authorized(jwtBody, task.project.id, RoleKey.TEAM_LEADER)) {
       return await this.tasksService.delete(id);
     }
-    return { success: false, message: "You don't have permission to delete that task" };
+    return { success: false, message: 'Only project creator can delete tasks' };
   }
 
   @Put('/projects/tasks/:id')
