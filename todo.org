@@ -1,0 +1,8 @@
+* James
+[ ] Authorization & sending roles to frontend
+* Mark
+[ ] Update users when new user added
+* Alex
+[ ] Frontend betterness
+* Gavin
+[ ] Delete users projects as team leader, unassign tasks 
