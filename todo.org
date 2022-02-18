@@ -2,6 +2,7 @@
 [ ] Authorization & sending roles to frontend
 * Mark
 [ ] Update users when new user added
+[ ] Add description field
 * Alex
 [ ] Frontend betterness
 * Gavin
