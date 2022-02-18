@@ -32,6 +32,7 @@ export class TasksService {
     const task = new Task();
     task.title = taskPayload.title;
     task.estimate = taskPayload.estimate;
+    task.description = taskPayload.description;
     task.project = await this.projectsService.find(projectId);
     task.user = await this.usersService.find(userId);
     return this.taskRepository.save(task);

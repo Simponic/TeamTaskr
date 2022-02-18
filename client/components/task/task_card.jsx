@@ -13,6 +13,7 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
   const [assignedUserName, setAssignedUserName] = useState('-');
   const [status, setStatus] = useState('-');
   const [estimate, setEstimate] = useState('-');
+  const [description, setDescription] = useState('-');
 
   const setFieldsFromInitialTask = () => {
     if (task) {
@@ -21,6 +22,7 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
       setAssignedUserName(task.user ? `${task.user.firstName} ${task.user.lastName}` : '-');
       setStatus(task.status);
       setEstimate(task.estimate);
+      setDescription(task.description);
     } else {
       setEditing(true);
     }
@@ -45,6 +47,7 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
         title: title,
         status: status,
         estimate: estimate,
+        description: description,
       };
       let res;
       if (task) {
@@ -105,6 +108,10 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
                 <option value="incomplete">incomplete</option>
               </select>
             </div>
+            <div>
+              <label>Description: </label>
+              <Input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+            </div>
           </div>
         ) : (
           <div>
@@ -112,6 +119,7 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
             <div>Estimate: {estimate}</div>
             <div>Assigned to: {assignedUserName}</div>
             <div>Status: {status}</div>
+            <div>Description: {description}</div>
           </div>
         )}
         <div className="flex justify-end">

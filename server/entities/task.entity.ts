@@ -19,6 +19,9 @@ export class Task {
   estimate: string;
 
   @Column()
+  description: string;
+
+  @Column()
   status: TaskStatus;
 
   @ManyToOne(() => Project, (project) => project.tasks)
