@@ -4,6 +4,29 @@
 
 @tailwind utilities;
 
+div.project-card:hover {
+  background-color: #ececec;
+}
+
+div.project-card > div {
+  position: relative;
+  user-select: none;
+}
+
+div.project-card div.buttonbox {
+  display: none;
+}
+
+div.project-card:hover div.buttonbox {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  justify-content: right;
+  position: absolute;
+  bottom: -5px;
+  right: 0px;
+}
+
 div.task {
   display: flex;
   flex-direction: column;
@@ -17,6 +40,7 @@ div.task:not(.editing) div.buttonbox {
 div.task:is(.editing, :hover) div.buttonbox {
   display: flex;
   flex-direction: row;
+  column-gap: 10px;
   justify-content: right;
 }
 

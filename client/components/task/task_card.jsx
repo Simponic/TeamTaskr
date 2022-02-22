@@ -148,9 +148,7 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
         )}
         <div className="buttonbox">
           {!projectId ? <Button onClick={() => deleteTask(task.id)}>Delete</Button> : null}
-          <div className="pl-2" />
           <Button onClick={updateTask}>{editing ? 'Submit' : 'Edit'}</Button>
-          {!projectId ? <div className="pl-2" /> : null}
           {!projectId ? (
             <Button onClick={toggleTask}>{status === 'incomplete' ? 'Complete Task' : 'Uncomplete Task'}</Button>
           ) : null}

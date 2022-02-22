@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Paper } from '../common/paper';
 import { Button } from '../common/button';
 import { ProjectNew } from './project_new';
+import { ProjectCard } from './project_card';
 
 export const Projects = () => {
   const api = useContext(ApiContext);
@@ -34,18 +35,7 @@ export const Projects = () => {
         <ProjectNew onNewProject={fetchProjects} />
         <div className="w-96 text-red-500 flex">{error}</div>
         {projects.map((project) => (
-          <Paper key={project.id}>
-            <div>
-              <h2>{project.title}</h2>
-              <div className="flex justify-end">
-                <Button>
-                  <Link to={`/projects/${project.id}`}> View </Link>
-                </Button>
-                <div className="pl-2" />
-                <Button onClick={() => deleteProject(project.id)}>Delete</Button>
-              </div>
-            </div>
-          </Paper>
+          <ProjectCard project={project} onDelete={() => deleteProject(project.id)} key={project.id} />
         ))}
       </div>
     </div>
