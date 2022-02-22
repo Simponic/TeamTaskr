@@ -11,9 +11,9 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
   const [title, setTitle] = useState('New Task');
   const [assignedUser, setAssignedUser] = useState(-1);
   const [assignedUserName, setAssignedUserName] = useState('-');
-  const [status, setStatus] = useState('-');
-  const [estimate, setEstimate] = useState('-');
-  const [description, setDescription] = useState('-');
+  const [status, setStatus] = useState('incomplete');
+  const [estimate, setEstimate] = useState('');
+  const [description, setDescription] = useState('');
 
   const setFieldsFromInitialTask = () => {
     if (task) {
@@ -71,9 +71,33 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
     }
   };
 
+  const toggleTask = async () => {
+    let body = {
+      userId: assignedUser,
+      title: title,
+      status: status === 'complete' ? 'incomplete' : 'complete',
+      estimate: estimate,
+      description: description,
+    };
+    let res;
+    if (task) {
+      res = await api.put(`/projects/tasks/${task.id}`, body);
+    } else {
+      return;
+    }
+    if (res.success) {
+      onUpdate();
+    } else if (res.message) {
+      setError(res.message);
+      if (task) {
+        setFieldsFromInitialTask();
+      }
+    }
+  };
+
   return (
     <Paper>
-      <div>
+      <div className={editing ? 'task editing' : 'task'}>
         <div className="text-red-500">{error}</div>
         {editing ? (
           <div>
@@ -122,10 +146,14 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
             <div>Description: {description}</div>
           </div>
         )}
-        <div className="flex justify-end">
+        <div className="buttonbox">
           {!projectId ? <Button onClick={() => deleteTask(task.id)}>Delete</Button> : null}
           <div className="pl-2" />
           <Button onClick={updateTask}>{editing ? 'Submit' : 'Edit'}</Button>
+          {!projectId ? <div className="pl-2" /> : null}
+          {!projectId ? (
+            <Button onClick={toggleTask}>{status === 'incomplete' ? 'Complete Task' : 'Uncomplete Task'}</Button>
+          ) : null}
         </div>
       </div>
     </Paper>

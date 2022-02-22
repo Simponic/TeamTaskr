@@ -3,3 +3,52 @@
 @tailwind components;
 
 @tailwind utilities;
+
+div.task {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+div.task:not(.editing) div.buttonbox {
+  display: none;
+}
+
+div.task:is(.editing, :hover) div.buttonbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+div.task:hover:not(.editing) div.buttonbox {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+div.project-view div.tasks {
+  display: grid;
+  grid-template-columns: [todo] 1fr [complete] 1fr;
+}
+
+div.project-view div.tasks :first-child {
+  grid-column: todo;
+}
+
+div.project-view div.tasks :last-child {
+  grid-column: complete;
+}
+
+button.button {
+  background-color: #8b8b8b;
+  padding: 4px;
+  font-weight: bold;
+  color: #ffffff;
+  border-radius: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+button.button:hover {
+  background-color: #727272;
+}

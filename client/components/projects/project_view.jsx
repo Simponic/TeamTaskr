@@ -37,7 +37,7 @@ export const ProjectView = () => {
   useEffect(fetchProject, []);
 
   return (
-    <div className="p-4">
+    <div className="p-4 project-view">
       <div>{project.title}</div>
       <p className="text-red-500">{globalError}</p>
       <div>
@@ -54,8 +54,8 @@ export const ProjectView = () => {
       <div className="flex justify-center">
         <TaskCard projectId={id} task={null} users={users} onUpdate={fetchProject} />
       </div>
-      <div className="grid grid-flow-col gap-3 h-100">
-        <div className="col-span-1">
+      <div className="tasks gap-3 h-100">
+        <div>
           <div>
             Todo
             <div className="bg-red-200">
@@ -67,7 +67,7 @@ export const ProjectView = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-1">
+        <div>
           <div>
             Done
             <div className="bg-green-200">
