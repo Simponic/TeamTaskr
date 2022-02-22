@@ -21,7 +21,7 @@ export const ProjectView = () => {
     const res = await api.post(`/projects/${id}/users`, { email: addUserEmail });
     if (!res.success) {
       setAddUserEmailError(res.message);
-    }
+    } else await fetchProject();
   };
 
   const fetchProject = async () => {
