@@ -75,6 +75,21 @@ export class ProjectsService {
     }
   }
 
+  async removeUserFromProject(projectId: number, userEmail: string) {
+    const user = await this.usersService.findBy({ email: userEmail });
+    if (!user) return { success: false, message: 'User not found' };
+
+    const project = await this.projectsRepository.findOne({
+      id: projectId,
+    });
+    if (await this.usersService.hasRoleInContext(user.id, project.contextId, RoleKey.TEAM_MEMBER)) {
+      await this.usersService.removeUserInContext(user.id, project.contextId);
+      return { success: true };
+    } else {
+      return { success: false, message: 'User is not in this project' };
+    }
+  }
+
   async usersInProject(projectId: number) {
     const users = await this.userRolesRepository
       .createQueryBuilder('user_role')

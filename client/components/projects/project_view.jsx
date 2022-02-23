@@ -24,6 +24,14 @@ export const ProjectView = () => {
     } else await fetchProject();
   };
 
+  const removeUserFromProject = async () => {
+    setAddUserEmailError('');
+    const res = await api.put(`/projects/${id}/users`, { email: addUserEmail });
+    if (!res.success) {
+      setAddUserEmailError(res.message);
+    } else await fetchProject();
+  };
+
   const fetchProject = async () => {
     const res = await api.get(`/projects/${id}`);
     if (res.success) {
@@ -50,6 +58,7 @@ export const ProjectView = () => {
         />
         <p className="text-red-500">{addUserEmailError}</p>
         <Button onClick={addUserToProject}>Add User</Button>
+        <Button onClick={removeUserFromProject}>Remove User</Button>
       </div>
       <div className="flex justify-center">
         <TaskCard projectId={id} task={null} users={users} onUpdate={fetchProject} />

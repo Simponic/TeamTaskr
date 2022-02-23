@@ -55,6 +55,21 @@ export class ProjectsContoller {
     return { success: false, message: "You don't have permission to add new users" };
   }
 
+  @Put('/projects/:id/users')
+  public async removeUser(@JwtBody() jwtBody: JwtBodyDto, @Body() userPayload: any, @Param('id') id: number) {
+    if (await this.authorized(jwtBody, id, RoleKey.TEAM_LEADER)) {
+      const tasks = await (await this.projectsService.find(id, ['tasks', 'tasks.user'])).tasks;
+      for (const task of tasks) {
+        if (task.user.email === userPayload.email) {
+          task.user = null;
+          await this.tasksService.save(task);
+        }
+      }
+      return await this.projectsService.removeUserFromProject(id, userPayload.email);
+    }
+    return { success: false, message: "You don't have permission to remove users" };
+  }
+
   @Delete('/projects/:id')
   public async remove(@JwtBody() jwtBody: JwtBodyDto, @Param('id') id: number) {
     if (await this.authorized(jwtBody, id, RoleKey.TEAM_LEADER)) {

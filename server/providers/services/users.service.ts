@@ -58,6 +58,13 @@ export class UsersService {
     );
   }
 
+  async removeUserInContext(userId: number, contextId: string) {
+    await this.userRolesRepository.delete({
+      userId: userId,
+      contextId: contextId,
+    });
+  }
+
   addUserToRootRole(userId: number, ...roleKeys: RoleKey[]) {
     return this.addUserToRoleInContext(userId, 'root', ...roleKeys);
   }
