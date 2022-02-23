@@ -126,13 +126,13 @@ export const TaskCard = ({ projectId, task, users, onUpdate }) => {
               </select>
             </div>
             {task !== null ? (
-            <div>
-              <label>Status: </label>
-              <select onChange={(e) => setStatus(e.target.value)} value={status}>
-                <option value="complete">complete</option>
-                <option value="incomplete">incomplete</option>
-              </select>
-            </div>
+              <div>
+                <label>Status: </label>
+                <select onChange={(e) => setStatus(e.target.value)} value={status}>
+                  <option value="complete">complete</option>
+                  <option value="incomplete">incomplete</option>
+                </select>
+              </div>
             ) : (
               <div></div>
             )}
