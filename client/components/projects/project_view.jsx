@@ -13,22 +13,22 @@ export const ProjectView = () => {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [globalError, setGlobalError] = useState('');
-  const [addUserEmailError, setAddUserEmailError] = useState('');
-  const [addUserEmail, setAddUserEmail] = useState('');
+  const [UserEmailError, setUserEmailError] = useState('');
+  const [UserEmail, setUserEmail] = useState('');
 
   const addUserToProject = async () => {
-    setAddUserEmailError('');
-    const res = await api.post(`/projects/${id}/users`, { email: addUserEmail });
+    setUserEmailError('');
+    const res = await api.post(`/projects/${id}/users`, { email: UserEmail });
     if (!res.success) {
-      setAddUserEmailError(res.message);
+      setUserEmailError(res.message);
     } else await fetchProject();
   };
 
   const removeUserFromProject = async () => {
-    setAddUserEmailError('');
-    const res = await api.put(`/projects/${id}/users`, { email: addUserEmail });
+    setUserEmailError('');
+    const res = await api.put(`/projects/${id}/users`, { email: UserEmail });
     if (!res.success) {
-      setAddUserEmailError(res.message);
+      setUserEmailError(res.message);
     } else await fetchProject();
   };
 
@@ -53,10 +53,10 @@ export const ProjectView = () => {
           type="text"
           name="email"
           placeholder="Email"
-          value={addUserEmail}
-          onChange={(e) => setAddUserEmail(e.target.value)}
+          value={UserEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
         />
-        <p className="text-red-500">{addUserEmailError}</p>
+        <p className="text-red-500">{UserEmailError}</p>
         <Button onClick={addUserToProject}>Add User</Button>
         <Button onClick={removeUserFromProject}>Remove User</Button>
       </div>
