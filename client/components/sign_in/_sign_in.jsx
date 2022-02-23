@@ -9,6 +9,7 @@ export const SignIn = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const goToSignUp = () => {
@@ -31,7 +32,7 @@ export const SignIn = () => {
       setAuthToken(result.token);
       navigate('/');
     } else {
-      console.error('An issue occurred when logging in.');
+      setError('An issue occurred when logging in.');
     }
   };
 
@@ -43,6 +44,7 @@ export const SignIn = () => {
           <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <div>Password</div>
           <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <p className="text-red-500">{error}</p>
           <div className="flex flex-row justify-end mt-2">
             <Button type="button" onClick={goToSignUp}>
               Sign up
