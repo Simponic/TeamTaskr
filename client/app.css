@@ -6,6 +6,7 @@
 
 div.project-card:hover {
   background-color: #ececec;
+  cursor: pointer;
 }
 
 div.project-card > div {

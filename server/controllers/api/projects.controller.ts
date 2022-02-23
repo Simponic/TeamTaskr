@@ -57,6 +57,9 @@ export class ProjectsContoller {
 
   @Put('/projects/:id/users')
   public async removeUser(@JwtBody() jwtBody: JwtBodyDto, @Body() userPayload: any, @Param('id') id: number) {
+    if (userPayload.email === userPayload.userRequestingEmail) {
+      return { success: false, message: "You can't remove yourself from a project" };
+    }
     if (await this.authorized(jwtBody, id, RoleKey.TEAM_LEADER)) {
       const tasks = await (await this.projectsService.find(id, ['tasks', 'tasks.user'])).tasks;
       for (const task of tasks) {

@@ -26,7 +26,11 @@ export const ProjectView = () => {
 
   const removeUserFromProject = async () => {
     setUserEmailError('');
-    const res = await api.put(`/projects/${id}/users`, { email: UserEmail });
+    const userRequesting = await api.get(`/users/me`);
+    const res = await api.put(`/projects/${id}/users`, {
+      email: UserEmail,
+      userRequestingEmail: userRequesting.user.email,
+    });
     if (!res.success) {
       setUserEmailError(res.message);
     } else await fetchProject();
